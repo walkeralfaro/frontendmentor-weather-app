@@ -19,30 +19,36 @@ import {
 import { useDebounce } from "@uidotdev/usehooks"
 import { useEffect, useState } from "react"
 import { fetchCities } from "@/app/api"
+import { City } from "@/schema"
 
-export function SearchForm({ onSelect }: { onSelect: (city: any) => void }) {
+export function SearchForm({ onSelectCity, localCity }: { onSelectCity: (city: City) => void, localCity?: City | null }) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState("")
-  const [cities, setCities] = useState<any[]>([])
+  const [cities, setCities] = useState<City[]>([])
   const [loading, setLoading] = useState(false)
   const [selectedCity, setSelectedCity] = useState<any>(null)
   const debouncedSearchTerm = useDebounce(query, 400)
 
   useEffect(() => {
-    
-    setLoading(true)
-    const searchHN = async () => {
-      let results = []
-      if (debouncedSearchTerm) {
-        const data = await fetchCities(debouncedSearchTerm)
-        results = data.results || []
+    if (localCity && !selectedCity) {
+      setSelectedCity(localCity)
+    }
+  }, [localCity])
+
+  useEffect(() => {
+    const search = async () => {
+      if (debouncedSearchTerm.trim().length < 2) {
+        setCities([])
+        return
       }
 
+      setLoading(true)
+      const results = await fetchCities(debouncedSearchTerm) || []
       setCities(results)
       setLoading(false)
     }
 
-    searchHN()
+    search()
   }, [debouncedSearchTerm])
 
   return (
@@ -76,11 +82,11 @@ export function SearchForm({ onSelect }: { onSelect: (city: any) => void }) {
               {cities.map((city) => (
                 <CommandItem
                   key={city.id}
-                  value={city.name}
+                  value={`${city.name}-${city.id}`}
                   onSelect={() => {
                     setSelectedCity(city)
                     setOpen(false)
-                    onSelect(city) // coords + nombre para OpenMeteo
+                    onSelectCity(city)
                   }}
                 >
                   <CheckIcon
@@ -89,7 +95,7 @@ export function SearchForm({ onSelect }: { onSelect: (city: any) => void }) {
                       selectedCity?.id === city.id ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {city.name}, {city.admin1}, {city.country} 
+                  {city.name}, {city.admin1}, {city.country}
                   {/* ({city.latitude.toFixed(2)}, {city.longitude.toFixed(2)}) */}
                 </CommandItem>
               ))}
