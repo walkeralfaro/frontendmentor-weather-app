@@ -1,9 +1,9 @@
-import Search from "@/components/search/Search";
+import AppWeather from "@/components/app/app-weather"
 
 export default function App() {
   return (
     <>
-      <Search />
+      <AppWeather />
     </>
   )
 }

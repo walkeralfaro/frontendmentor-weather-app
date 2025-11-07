@@ -1,13 +1,13 @@
 'use client'
 
 import { City, Current } from "@/schema"
-import { SearchForm } from "./SearchForm"
-import { fetchWeather } from "@/app/api"
+import { fetchWeather } from "@/lib/weather"
 import { useEffect, useState } from "react"
-import CurrentWeather from "../weather/current-weather"
-import { UnitsMenu } from "../weather/units-menu"
+import { UnitsMenu } from "@/components/weather/units-menu"
+import { SearchForm } from "@/components/search/search-form"
+import CurrentWeather from "@/components/weather/current-weather"
 
-export default function Search() {
+export default function AppWeather() {
   const [localCity, setLocalCity] = useState<City | null>(null)
   const [current, setCurrent] = useState<Current>()
 

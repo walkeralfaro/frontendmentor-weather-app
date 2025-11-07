@@ -18,8 +18,8 @@ import {
 } from "@/components/ui/popover"
 import { useDebounce } from "@uidotdev/usehooks"
 import { useEffect, useState } from "react"
-import { fetchCities } from "@/app/api"
 import { City } from "@/schema"
+import { fetchCities } from "@/lib/weather"
 
 export function SearchForm({ onSelectCity, localCity }: { onSelectCity: (city: City) => void, localCity?: City | null }) {
   const [open, setOpen] = useState(false)
@@ -96,7 +96,6 @@ export function SearchForm({ onSelectCity, localCity }: { onSelectCity: (city: C
                     )}
                   />
                   {city.name}, {city.admin1}, {city.country}
-                  {/* ({city.latitude.toFixed(2)}, {city.longitude.toFixed(2)}) */}
                 </CommandItem>
               ))}
             </CommandGroup>

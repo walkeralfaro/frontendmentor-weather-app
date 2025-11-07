@@ -1,8 +1,12 @@
+'use server'
+
 import axios from "axios"
 import { citiesResponseSchema } from "@/schema"
 import { fetchWeatherApi } from "openmeteo"
 
 export const fetchCities = async (query: string) => {
+  'use cache'
+
   try {
     const res = await axios.get("https://geocoding-api.open-meteo.com/v1/search", { params: { name: query } })
 
@@ -21,6 +25,8 @@ export const fetchCities = async (query: string) => {
 }
 
 export const fetchWeather = async (latitude: number, longitude: number) => {
+  'use cache'
+
   try {
     const params = {
       latitude,
