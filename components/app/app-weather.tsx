@@ -6,13 +6,17 @@ import { useEffect, useState } from "react"
 import { UnitsMenu } from "@/components/weather/units-menu"
 import { SearchForm } from "@/components/search/search-form"
 import CurrentWeather from "@/components/weather/current-weather"
+import Header from "./header"
 
 export default function AppWeather() {
   const [localCity, setLocalCity] = useState<City | null>(null)
+  const [searchedCity, setSearchedCity] = useState<City | null>(null)
   const [current, setCurrent] = useState<Current>()
 
   const handleCitySearch = async (city: City) => {
     console.log("Ciudad seleccionada:", city)
+
+    setSearchedCity(city)
 
     const weather = await fetchWeather(city.latitude, city.longitude)
 
@@ -25,7 +29,8 @@ export default function AppWeather() {
     setCurrent(weather.current)
   }
 
- useEffect(() => {
+  // search local city - IP - browser
+  useEffect(() => {
     const getUserLocation = async () => {
       try {
         const res = await fetch("https://ipapi.co/json/")
@@ -34,7 +39,7 @@ export default function AppWeather() {
         if (!data.latitude || !data.longitude) return
 
         const detectedCity: City = {
-          id: ( Math.floor(data.latitude) - Math.floor(data.longitude)),
+          id: (Math.floor(data.latitude) - Math.floor(data.longitude)),
           name: data.city,
           country: data.country_name,
           admin1: data.region,
@@ -54,10 +59,15 @@ export default function AppWeather() {
 
   return (
     <>
-      <div className="font-bricolage-grotesque">
-        <UnitsMenu />
-        <SearchForm onSelectCity={(city) => handleCitySearch(city)} localCity={localCity}/>
-        <CurrentWeather current={current}/>
+      <div className="font-dm-sans">
+        <Header />
+        <div className="container mx-auto max-w-3xl p-10">
+          <h1 className="text-5xl/15 font-bricolage-grotesque text-center">How's the sky looking today?</h1>
+        </div>
+        <div className="text-center">
+          <SearchForm onSelectCity={(city) => handleCitySearch(city)} localCity={localCity} />
+        </div>
+        <CurrentWeather current={current} searchedCity={searchedCity} />
       </div>
     </>
   )

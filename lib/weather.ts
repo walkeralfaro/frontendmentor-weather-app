@@ -26,33 +26,14 @@ export const fetchCities = async (query: string) => {
 
 export const fetchWeather = async (latitude: number, longitude: number) => {
   'use cache'
-
   try {
     const params = {
-      latitude,
-      longitude,
-      // Pedimos tanto datos horarios como diarios:
-      hourly: [
-        "temperature_2m",
-        "relative_humidity_2m",
-        "precipitation",
-        "apparent_temperature", // "feels like"
-        "wind_speed_10m"
-      ],
-      daily: [
-        "temperature_2m_max",
-        "temperature_2m_min",
-        "precipitation_sum",
-        "weather_code"
-      ],
-      current: [
-        "temperature_2m",
-        "relative_humidity_2m",
-        "apparent_temperature",
-        "precipitation",
-        "wind_speed_10m"
-      ],
-      timezone: "auto",
+      "latitude": latitude,
+      "longitude": longitude,
+      "daily": ["temperature_2m_max", "temperature_2m_min", "precipitation_sum", "weather_code"],
+      "hourly": ["temperature_2m", "relative_humidity_2m", "precipitation", "apparent_temperature", "wind_speed_10m", "weather_code"],
+      "current": ["temperature_2m", "apparent_temperature", "relative_humidity_2m", "precipitation", "wind_speed_10m", "weather_code"],
+      "timezone": "auto",
     }
 
     const url = "https://api.open-meteo.com/v1/forecast"
@@ -69,10 +50,11 @@ export const fetchWeather = async (latitude: number, longitude: number) => {
     const currentData = {
       time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
       temperature_2m: current.variables(0)!.value(),
-      relative_humidity_2m: current.variables(1)!.value(),
-      apparent_temperature: current.variables(2)!.value(),
+      apparent_temperature: current.variables(1)!.value(),
+      relative_humidity_2m: current.variables(2)!.value(),
       precipitation: current.variables(3)!.value(),
       wind_speed_10m: current.variables(4)!.value(),
+      weather_code: current.variables(5)!.value(),
     }
 
     // Procesamos datos horarios
@@ -84,8 +66,9 @@ export const fetchWeather = async (latitude: number, longitude: number) => {
       temperature_2m: hourly.variables(0)!.valuesArray(),
       relative_humidity_2m: hourly.variables(1)!.valuesArray(),
       precipitation: hourly.variables(2)!.valuesArray(),
-      wind_speed_10m: hourly.variables(3)!.valuesArray(),
-      apparent_temperature: hourly.variables(4)!.valuesArray(),
+      apparent_temperature: hourly.variables(3)!.valuesArray(),
+      wind_speed_10m: hourly.variables(4)!.valuesArray(),
+      weather_code: hourly.variables(5)!.valuesArray(),
     }
 
     // Procesamos datos diarios
@@ -100,7 +83,7 @@ export const fetchWeather = async (latitude: number, longitude: number) => {
       weather_code: daily.variables(3)!.valuesArray(),
     }
 
-    return {
+    const result = {
       latitude: response.latitude(),
       longitude: response.longitude(),
       elevation: response.elevation(),
@@ -110,6 +93,8 @@ export const fetchWeather = async (latitude: number, longitude: number) => {
       daily: dailyData,
       current: currentData,
     }
+
+    return JSON.parse(JSON.stringify(result))
   } catch (error) {
     console.error("Error fetching weather data:", error)
     return null

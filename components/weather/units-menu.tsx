@@ -3,6 +3,7 @@
 import { useUnitStore } from "@/store/useUnitStore"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
+import { Settings } from "lucide-react"
 
 export function UnitsMenu() {
   const {
@@ -13,9 +14,9 @@ export function UnitsMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">⚙️ Units</Button>
+        <Button variant="outline"><Settings /> Units</Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-48">
+      <DropdownMenuContent className="w-48" align="end">
         <DropdownMenuLabel>Temperature</DropdownMenuLabel>
         <DropdownMenuItem onClick={() => setTemperatureUnit("celsius")}>
           {temperatureUnit === "celsius" && "✓"} Celsius (°C)

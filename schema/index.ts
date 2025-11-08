@@ -22,7 +22,8 @@ export const currentSchema = z.object({
   relative_humidity_2m: z.number(),
   temperature_2m: z.number(),
   time: z.date(),
-  wind_speed_10m: z.number()
+  wind_speed_10m: z.number(),
+  weather_code: z.number()
 })
 
 export type Current = z.infer<typeof currentSchema>

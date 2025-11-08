@@ -58,31 +58,33 @@ export function SearchForm({ onSelectCity, localCity }: { onSelectCity: (city: C
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[250px] justify-between"
+          className="w-[343] sm:w-[375] md:w-[400] justify-between text-xl h-12"
         >
           {selectedCity
             ? `${selectedCity.name}, ${selectedCity.country}`
-            : "Buscar ciudad..."}
-          <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            : "Search for a place..."}
+          <ChevronsUpDownIcon className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[250px] p-0">
+      <PopoverContent className="w-[343] sm:w-[375] md:w-[400] p-0">
         <Command>
           <CommandInput
-            placeholder="Escribe una ciudad..."
+            placeholder="Search for a place..."
             value={query}
             onValueChange={setQuery}
+            className="text-lg "
           />
           <CommandList>
             {loading && <CommandEmpty>Cargando...</CommandEmpty>}
             {!loading && !cities.length && (
-              <CommandEmpty>No se encontraron resultados.</CommandEmpty>
+              <CommandEmpty>Not found results.</CommandEmpty>
             )}
             <CommandGroup>
               {cities.map((city) => (
                 <CommandItem
                   key={city.id}
                   value={`${city.name}-${city.id}`}
+                  className="text-md"
                   onSelect={() => {
                     setSelectedCity(city)
                     setOpen(false)

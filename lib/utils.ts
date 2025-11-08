@@ -16,3 +16,16 @@ export function kmhToMph(kmh: number) {
 export function mmToInch(mm: number) {
   return mm / 25.4
 }
+
+export function formatDate(date: Date) {
+  const newDate = new Date(date)
+
+  const formatted = newDate.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  })
+
+  return formatted
+}
