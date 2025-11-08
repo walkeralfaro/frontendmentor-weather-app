@@ -67,7 +67,10 @@ export default function AppWeather() {
         <div className="text-center">
           <SearchForm onSelectCity={(city) => handleCitySearch(city)} localCity={localCity} />
         </div>
+
         <CurrentWeather current={current} searchedCity={searchedCity} />
+
+
       </div>
     </>
   )
