@@ -5,7 +5,7 @@ import { fetchWeather } from "@/lib/weather"
 import { useEffect, useState } from "react"
 import { UnitsMenu } from "@/components/weather/units-menu"
 import { SearchForm } from "@/components/search/search-form"
-import CurrentWeather from "@/components/weather/current-weather"
+import CurrentWeather from "@/components/weather/current/current-weather"
 import Header from "./header"
 
 export default function AppWeather() {

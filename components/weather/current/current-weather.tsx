@@ -1,10 +1,11 @@
 'use client'
 
 import { useUnitStore } from "@/store/useUnitStore"
-import { toFahrenheit, kmhToMph, mmToInch, formatDate } from "@/lib/utils"
+import { kmhToMph, mmToInch, formatDate, celciusToFahrenheit } from "@/lib/utils"
 import { City, Current } from "@/schema"
 import { getWeatherIconPath } from "@/lib/weatherIconMap"
 import Image from "next/image"
+import CurrentCard from "./current-card"
 
 export default function CurrentWeather({ current, searchedCity }: { current: Current | undefined, searchedCity?: City | null }) {
   const { temperatureUnit, windUnit, precipitationUnit } = useUnitStore()
@@ -12,37 +13,14 @@ export default function CurrentWeather({ current, searchedCity }: { current: Cur
   if (!current) return null
 
   const iconPath = getWeatherIconPath(current.weather_code)
+  const temperature = celciusToFahrenheit(current.temperature_2m, temperatureUnit)
+  const apparent = celciusToFahrenheit(current.apparent_temperature, temperatureUnit)
+  const wind = kmhToMph(current.wind_speed_10m, windUnit)
+  const precipitation = mmToInch(current.precipitation, precipitationUnit)
 
-  const temperature =
-    temperatureUnit === "fahrenheit"
-      ? toFahrenheit(current.temperature_2m)
-      : current.temperature_2m
-
-  const apparent =
-    temperatureUnit === "fahrenheit"
-      ? toFahrenheit(current.apparent_temperature)
-      : current.apparent_temperature
-
-  const wind =
-    windUnit === "mph"
-      ? kmhToMph(current.wind_speed_10m)
-      : current.wind_speed_10m
-
-  const precipitation =
-    precipitationUnit === "in"
-      ? mmToInch(current.precipitation)
-      : current.precipitation
 
   return (
     <>
-      {/* <div className="p-4">
-        <p>🌡️ Temp: {apparent.toFixed(1)}°{temperatureUnit === "fahrenheit" ? "F" : "C"}</p>
-        <p>💨 Viento: {wind.toFixed(1)} {windUnit}</p>
-        <p>💧 Humedad: {current.relative_humidity_2m}%</p>
-        <p>☔ Precipitación: {precipitation.toFixed(2)} {precipitationUnit}</p>
-      </div> */}
-
-
       <main className="container mx-auto max-w-6xl p-4">
         {/* today temp - location - day */}
         <div className=" bg-[url(/bg-today-small.svg)] bg-cover bg-no-repeat bg-center py-10 px-6 aspect-343/286 flex flex-col justify-between">
@@ -66,8 +44,12 @@ export default function CurrentWeather({ current, searchedCity }: { current: Cur
 
         {/* current weather */}
         <div>
-
-
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+            <CurrentCard title='Feels Like' value={apparent} units={temperatureUnit === "fahrenheit" ? "°F" : "°C"} />
+            <CurrentCard title='Humidity' value={current.relative_humidity_2m} units='%' />
+            <CurrentCard title='Wind' value={wind} units={windUnit} />
+            <CurrentCard title='Precipitation' value={precipitation} units={precipitationUnit} />
+          </div>
         </div>
       </main>
     </>
