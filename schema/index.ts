@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { string, z } from 'zod'
 
 export const citySchema  = z.object({
   id: z.number(),
@@ -27,3 +27,13 @@ export const currentSchema = z.object({
 })
 
 export type Current = z.infer<typeof currentSchema>
+
+// Open Meteo - Daily
+export const dailySchema = z.object({
+  time: z.array(z.string()), // convierte ISO string → Date
+  temperature_2m_max: z.record(z.string(), z.number()),
+  temperature_2m_min: z.record(z.string(), z.number()),
+  weather_code: z.record(z.string(), z.number()),
+})
+
+export type Daily = z.infer<typeof dailySchema>

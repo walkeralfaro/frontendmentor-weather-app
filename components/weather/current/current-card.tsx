@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 
-export default function CurrentCard({title, value, units} : {title: string, value: number, units: string}) {
+export default function CurrentCard({ title, value, units }: { title: string, value: number, units: string }) {
   return (
     <Card className="py-4 gap-4">
       <CardHeader>

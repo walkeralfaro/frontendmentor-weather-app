@@ -18,13 +18,11 @@ export default function CurrentWeather({ current, searchedCity }: { current: Cur
   const wind = kmhToMph(current.wind_speed_10m, windUnit)
   const precipitation = mmToInch(current.precipitation, precipitationUnit)
 
-
   return (
     <>
       <main className="container mx-auto max-w-6xl p-4">
         {/* today temp - location - day */}
         <div className=" bg-[url(/bg-today-small.svg)] bg-cover bg-no-repeat bg-center py-10 px-6 aspect-343/286 flex flex-col justify-between">
-
           <div className="flex flex-col gap-3 items-center">
             <h2 className="text-3xl">{searchedCity?.name}{', '}{searchedCity?.country}</h2>
             <p className="text-lg font-light">{formatDate(current.time)}</p>
@@ -32,14 +30,12 @@ export default function CurrentWeather({ current, searchedCity }: { current: Cur
 
           <div className="flex items-center justify-around">
             <div className="relative w-20 aspect-square">
-
               <Image
                 src={iconPath} alt="Weather icon" fill priority
               />
             </div>
             <p className="text-8xl font-black italic">{temperature.toFixed(0)}°<span className="text-4xl">{temperatureUnit === "fahrenheit" ? "F" : "C"}</span></p>
           </div>
-
         </div>
 
         {/* current weather */}

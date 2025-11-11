@@ -30,7 +30,7 @@ export const fetchWeather = async (latitude: number, longitude: number) => {
     const params = {
       "latitude": latitude,
       "longitude": longitude,
-      "daily": ["temperature_2m_max", "temperature_2m_min", "precipitation_sum", "weather_code"],
+      "daily": ["temperature_2m_max", "temperature_2m_min", "weather_code"],
       "hourly": ["temperature_2m", "relative_humidity_2m", "precipitation", "apparent_temperature", "wind_speed_10m", "weather_code"],
       "current": ["temperature_2m", "apparent_temperature", "relative_humidity_2m", "precipitation", "wind_speed_10m", "weather_code"],
       "timezone": "auto",
@@ -79,8 +79,7 @@ export const fetchWeather = async (latitude: number, longitude: number) => {
       ),
       temperature_2m_max: daily.variables(0)!.valuesArray(),
       temperature_2m_min: daily.variables(1)!.valuesArray(),
-      precipitation_sum: daily.variables(2)!.valuesArray(),
-      weather_code: daily.variables(3)!.valuesArray(),
+      weather_code: daily.variables(2)!.valuesArray(),
     }
 
     const result = {

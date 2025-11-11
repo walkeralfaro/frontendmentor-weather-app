@@ -1,17 +1,19 @@
 'use client'
 
-import { City, Current } from "@/schema"
+import { City, Current, Daily } from "@/schema"
 import { fetchWeather } from "@/lib/weather"
 import { useEffect, useState } from "react"
-import { UnitsMenu } from "@/components/weather/units-menu"
 import { SearchForm } from "@/components/search/search-form"
 import CurrentWeather from "@/components/weather/current/current-weather"
 import Header from "./header"
+import DailyWeather from "../weather/daily/daily-weather"
+import { Skeleton } from "../ui/skeleton"
 
 export default function AppWeather() {
   const [localCity, setLocalCity] = useState<City | null>(null)
   const [searchedCity, setSearchedCity] = useState<City | null>(null)
   const [current, setCurrent] = useState<Current>()
+  const [daily, setDaily] = useState<Daily>()
 
   const handleCitySearch = async (city: City) => {
     console.log("Ciudad seleccionada:", city)
@@ -27,6 +29,7 @@ export default function AppWeather() {
 
     console.log("Datos del clima:", weather)
     setCurrent(weather.current)
+    setDaily(weather.daily)
   }
 
   // search local city - IP - browser
@@ -34,12 +37,17 @@ export default function AppWeather() {
     const getUserLocation = async () => {
       try {
         const res = await fetch("https://ipapi.co/json/")
+
+        // Si la API responde con error (429, 500, etc.)
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+
         const data = await res.json()
 
-        if (!data.latitude || !data.longitude) return
+        // Si la API responde pero no tiene coordenadas
+        if (!data.latitude || !data.longitude) throw new Error("Whitout coords")
 
         const detectedCity: City = {
-          id: (Math.floor(data.latitude) - Math.floor(data.longitude)),
+          id: Math.floor(data.latitude) - Math.floor(data.longitude),
           name: data.city,
           country: data.country_name,
           admin1: data.region,
@@ -50,7 +58,20 @@ export default function AppWeather() {
         setLocalCity(detectedCity)
         await handleCitySearch(detectedCity)
       } catch (error) {
-        console.error("Error al detectar ubicación por IP:", error)
+        console.warn("Error to detect IP direction:", error)
+
+        // 🔁 Fallback: ubicación por defecto
+        const fallbackCity: City = {
+          id: 1,
+          name: "Lima",
+          country: "Peru",
+          admin1: "Lima",
+          latitude: -12.0464,
+          longitude: -77.0428,
+        }
+
+        setLocalCity(fallbackCity)
+        await handleCitySearch(fallbackCity)
       }
     }
 
@@ -70,6 +91,17 @@ export default function AppWeather() {
 
         <CurrentWeather current={current} searchedCity={searchedCity} />
 
+        {
+          daily ? (
+            <DailyWeather daily={daily} />
+          ) : (
+            <div className="space-y-4">
+              <Skeleton className="h-6 w-1/2" />
+              <Skeleton className="h-6 w-3/4" />
+              <Skeleton className="h-6 w-full" />
+            </div>
+          )
+        }
 
       </div>
     </>
