@@ -1,15 +1,12 @@
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import groupWeatherByDay from "@/lib/groupWeatherByDay"
-import { celciusToFahrenheit } from "@/lib/utils"
 import { getWeatherIconPath } from "@/lib/weatherIconMap"
 import { Hourly } from "@/schema"
-import { useUnitStore } from "@/store/useUnitStore"
 import Image from "next/image"
 import { useState } from "react"
 
 export default function HourlyWeather({ hourly }: { hourly: Hourly }) {
-  const { temperatureUnit } = useUnitStore()
   const grouped = groupWeatherByDay(hourly)
   const days = Object.keys(grouped)
   const [selectedDay, setSelectedDay] = useState(days[0])
@@ -26,7 +23,7 @@ export default function HourlyWeather({ hourly }: { hourly: Hourly }) {
             <SelectTrigger className="bg-card dark:bg-secondary">
               <SelectValue placeholder="Select a weekday" />
             </SelectTrigger>
-            <SelectContent align="end">
+            <SelectContent>
               {
                 days.map((day) => (
                   <SelectItem key={day} value={day}>
@@ -46,8 +43,6 @@ export default function HourlyWeather({ hourly }: { hourly: Hourly }) {
               grouped[selectedDay].map((day, index) => {
                 const iconPath = getWeatherIconPath(day.code)
 
-                const temperature = celciusToFahrenheit(day.temperature, temperatureUnit)
-
                 return (
                   <div key={index} className="flex justify-between items-center bg-card dark:bg-secondary p-2 pr-3 border rounded-lg ">
                     <div className="flex gap-1 items-center">
@@ -58,7 +53,7 @@ export default function HourlyWeather({ hourly }: { hourly: Hourly }) {
                       <div className="text-xl">{day.time}</div>
 
                     </div>
-                    <div>{temperature}°</div>
+                    <div>{day.temperature.toFixed(0)}°</div>
                   </div>
                 )
               }

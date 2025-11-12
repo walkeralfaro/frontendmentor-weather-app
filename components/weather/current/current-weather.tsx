@@ -43,10 +43,12 @@ export default function CurrentWeather({
   const wind = kmhToMph(current.wind_speed_10m, windUnit)
   const precipitation = mmToInch(current.precipitation, precipitationUnit)
 
+  console.log(wind, precipitation)
+
   return (
     <main className="container mx-auto max-w-6xl p-4">
       {/* today temp - location - day */}
-      <div className="bg-[url(/bg-today-small.svg)] bg-cover bg-no-repeat bg-center py-10 px-6 aspect-[343/286] flex flex-col justify-between">
+      <div className="bg-[url(/bg-today-small.svg)] text-white bg-cover bg-no-repeat bg-center py-10 px-6 aspect-[343/286] flex flex-col justify-between">
         <div className="flex flex-col gap-3 items-center">
           <h2 className="text-3xl">
             {searchedCity?.name}

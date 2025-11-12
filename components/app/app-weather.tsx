@@ -7,16 +7,16 @@ import { SearchForm } from "@/components/search/search-form"
 import CurrentWeather from "@/components/weather/current/current-weather"
 import Header from "./header"
 import DailyWeather from "../weather/daily/daily-weather"
-import { Skeleton } from "../ui/skeleton"
 import HourlyWeather from "../weather/hourly/hourly-weather"
 import { Button } from "../ui/button"
+import { ScrollArea } from "../ui/scroll-area"
 
 export default function AppWeather() {
   const [localCity, setLocalCity] = useState<City | null>(null)
   const [searchedCity, setSearchedCity] = useState<City | null>(null)
-  const [current, setCurrent] = useState<Current>()
+  const [current, setCurrent] = useState<Current | undefined>()
   const [daily, setDaily] = useState<Daily | undefined>()
-  const [hourly, setHourly] = useState<Hourly>()
+  const [hourly, setHourly] = useState<Hourly | undefined>()
 
   const handleCitySearch = async (city: City) => {
     console.log("Ciudad seleccionada:", city)
@@ -113,10 +113,19 @@ export default function AppWeather() {
 
         {
           hourly ? (
-
             <HourlyWeather hourly={hourly} />
           ) : (
-            <p>cargando hourly</p>
+            <div className="p-4">
+              <div className="bg-sidebar-accent dark:bg-card rounded-lg">
+                <div className="flex justify-between items-center p-4">
+                  <h4>Hourly forecast</h4>
+                </div>
+
+                <ScrollArea className="h-144">
+                  <div className="space-y-3 p-4"></div>
+                </ScrollArea>
+              </div>
+            </div>
           )
         }
 
