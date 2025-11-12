@@ -9,12 +9,13 @@ import Header from "./header"
 import DailyWeather from "../weather/daily/daily-weather"
 import { Skeleton } from "../ui/skeleton"
 import HourlyWeather from "../weather/hourly/hourly-weather"
+import { Button } from "../ui/button"
 
 export default function AppWeather() {
   const [localCity, setLocalCity] = useState<City | null>(null)
   const [searchedCity, setSearchedCity] = useState<City | null>(null)
   const [current, setCurrent] = useState<Current>()
-  const [daily, setDaily] = useState<Daily>()
+  const [daily, setDaily] = useState<Daily | undefined>()
   const [hourly, setHourly] = useState<Hourly>()
 
   const handleCitySearch = async (city: City) => {
@@ -88,21 +89,25 @@ export default function AppWeather() {
         <div className="container mx-auto max-w-3xl p-10">
           <h1 className="text-5xl/15 font-bricolage-grotesque text-center">How's the sky looking today?</h1>
         </div>
-        <div className="text-center">
+        <div className="container mx-auto max-w-3xl p-4 text-center">
           <SearchForm onSelectCity={(city) => handleCitySearch(city)} localCity={localCity} />
+          <Button className="w-[330] sm:w-[375] mt-2 text-xl p-6 cursor-pointer" onClick={() => handleCitySearch(searchedCity!)}>Search</Button>
         </div>
 
-        <CurrentWeather current={current} searchedCity={searchedCity} />
+
+        {
+          current ? (
+            <CurrentWeather current={current} searchedCity={searchedCity} />
+          ) : (
+            <CurrentWeather current={current} searchedCity={searchedCity} />
+          )
+        }
 
         {
           daily ? (
             <DailyWeather daily={daily} />
           ) : (
-            <div className="space-y-4">
-              <Skeleton className="h-6 w-1/2" />
-              <Skeleton className="h-6 w-3/4" />
-              <Skeleton className="h-6 w-full" />
-            </div>
+            <DailyWeather daily={daily} />
           )
         }
 

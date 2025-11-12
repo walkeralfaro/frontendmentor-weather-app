@@ -3,7 +3,7 @@
 import { useUnitStore } from "@/store/useUnitStore"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { Settings } from "lucide-react"
+import { Check, ChevronDown, Settings } from "lucide-react"
 
 export function UnitsMenu() {
   const {
@@ -14,35 +14,38 @@ export function UnitsMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline"><Settings /> Units</Button>
+        <Button variant="outline" className="dark:bg-secondary"><Settings /> Units <ChevronDown /></Button>
       </DropdownMenuTrigger>
+
       <DropdownMenuContent className="w-48" align="end">
-        <DropdownMenuLabel>Temperature</DropdownMenuLabel>
-        <DropdownMenuItem onClick={() => setTemperatureUnit("celsius")}>
-          {temperatureUnit === "celsius" && "✓"} Celsius (°C)
+        <h3 className="p-2 text-sm">Switch to Imperial</h3>
+        <DropdownMenuLabel className="text-xs text-muted-foreground">Temperature</DropdownMenuLabel>
+        <DropdownMenuItem onClick={() => setTemperatureUnit("celsius")} className="flex justify-between">
+          Celsius (°C) {temperatureUnit === "celsius" && <Check />}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTemperatureUnit("fahrenheit")}>
-          {temperatureUnit === "fahrenheit" && "✓"} Fahrenheit (°F)
+          Fahrenheit (°F) {temperatureUnit === "fahrenheit" && <Check />}
         </DropdownMenuItem>
 
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel>Wind Speed</DropdownMenuLabel>
-        <DropdownMenuItem onClick={() => setWindUnit("kmh")}>
-          {windUnit === "kmh" && "✓"} km/h
+        <DropdownMenuSeparator className="mx-2" />
+        <DropdownMenuLabel className="text-xs text-muted-foreground">Wind Speed</DropdownMenuLabel>
+        <DropdownMenuItem onClick={() => setWindUnit("kmh")} className="flex justify-between">
+          km/h {windUnit === "kmh" && <Check />}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setWindUnit("mph")}>
-          {windUnit === "mph" && "✓"} mph
+        <DropdownMenuItem onClick={() => setWindUnit("mph")} className="flex justify-between">
+          mph {windUnit === "mph" && <Check />}
         </DropdownMenuItem>
 
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel>Precipitation</DropdownMenuLabel>
-        <DropdownMenuItem onClick={() => setPrecipitationUnit("mm")}>
-          {precipitationUnit === "mm" && "✓"} Millimeters (mm)
+        <DropdownMenuSeparator className="mx-2" />
+        <DropdownMenuLabel className="text-xs text-muted-foreground">Precipitation</DropdownMenuLabel>
+        <DropdownMenuItem onClick={() => setPrecipitationUnit("mm")} className="flex justify-between">
+          Millimeters (mm) {precipitationUnit === "mm" && <Check />}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setPrecipitationUnit("in")}>
-          {precipitationUnit === "in" && "✓"} Inches (in)
+        <DropdownMenuItem onClick={() => setPrecipitationUnit("in")} className="flex justify-between">
+          Inches (in) {precipitationUnit === "in" && <Check />}
         </DropdownMenuItem>
       </DropdownMenuContent>
+
     </DropdownMenu>
   )
 }

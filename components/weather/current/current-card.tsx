@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 
-export default function CurrentCard({ title, value, units }: { title: string, value: number, units: string }) {
+export default function CurrentCard({ title, value, units }: { title: string, value?: number, units: string }) {
+
+  const isLoading = !value
   return (
     <Card className="py-4 gap-4">
       <CardHeader>
@@ -9,9 +11,15 @@ export default function CurrentCard({ title, value, units }: { title: string, va
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-3xl font-light">
-          {value} {''}{units}
-        </p>
+        {
+          isLoading ? (
+            <p>--</p>
+          ) : (
+            <p className="text-3xl font-light">
+              {value} {''}{units}
+            </p>
+          )
+        }
       </CardContent>
     </Card>
   )

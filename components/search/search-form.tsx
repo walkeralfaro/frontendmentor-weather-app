@@ -58,7 +58,7 @@ export function SearchForm({ onSelectCity, localCity }: { onSelectCity: (city: C
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[340] sm:w-[375] md:w-[400] justify-between text-xl h-12"
+          className="w-[330] sm:w-[375] md:w-[400] justify-between text-xl h-12"
         >
           {selectedCity
             ? `${selectedCity.name}, ${selectedCity.country}`
@@ -66,15 +66,15 @@ export function SearchForm({ onSelectCity, localCity }: { onSelectCity: (city: C
           <ChevronsUpDownIcon className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[340] sm:w-[375] md:w-[400] p-0">
+      <PopoverContent className="w-[330] sm:w-[375] md:w-[400] p-0">
         <Command>
           <CommandInput
             placeholder="Search for a place..."
             value={query}
             onValueChange={setQuery}
-            className="text-lg "
+            className="text-lg"
           />
-          <CommandList>
+          <CommandList className="h-40 lg:h-60">
             {loading && <CommandEmpty>Cargando...</CommandEmpty>}
             {!loading && !cities.length && (
               <CommandEmpty>Not found results.</CommandEmpty>

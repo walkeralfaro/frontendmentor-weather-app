@@ -102,7 +102,8 @@
   --muted-foreground: hsl(240, 6%, 70%); /* neutral 300 */
 
   /* Accent (hover, subtle highlights) */
-  --accent: hsl(248, 70%, 36%); /* blue 700 */
+  /* --accent: hsl(248, 70%, 36%); */
+  --accent: hsl(243, 23%, 24%); /* neutral 700 */
   --accent-foreground: hsl(0, 0%, 100%);
 
   /* Destructive (errors, warnings) */
