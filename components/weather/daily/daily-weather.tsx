@@ -6,7 +6,7 @@ import { useUnitStore } from "@/store/useUnitStore"
 import Image from "next/image"
 
 export default function DailyWeather({ daily }: { daily: Daily }) {
-  const { temperatureUnit, windUnit, precipitationUnit } = useUnitStore()
+  const { temperatureUnit } = useUnitStore()
 
 
   console.log(daily)
@@ -23,16 +23,10 @@ export default function DailyWeather({ daily }: { daily: Daily }) {
                 weekday: "short",
                 timeZone: "UTC",
               })
-
-
               const max = celciusToFahrenheit(daily.temperature_2m_max[index], temperatureUnit)
               const min = celciusToFahrenheit(daily.temperature_2m_min[index], temperatureUnit)
               const code = daily.weather_code[index]
               const iconPath = getWeatherIconPath(code)
-
-              console.log(max, min, code)
-
-
 
               return (
 
@@ -46,12 +40,14 @@ export default function DailyWeather({ daily }: { daily: Daily }) {
                     <CardContent className="p-0">
 
                       <div className="px-4">
-
                         <div className="relative aspect-square w-full">
-                          <Image
-                            src={iconPath} alt="Weather icon" fill priority
-                          />
+                          <Image src={iconPath} alt="Weather icon" fill priority />
                         </div>
+                      </div>
+
+                      <div className="flex justify-between px-3 font-light">
+                        <p>{max}°</p>
+                        <p>{min}°</p>
                       </div>
 
                     </CardContent>
@@ -60,9 +56,7 @@ export default function DailyWeather({ daily }: { daily: Daily }) {
               )
             })
           }
-
         </div>
-
       </section>
     </>
   )
