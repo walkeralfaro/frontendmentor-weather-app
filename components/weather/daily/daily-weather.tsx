@@ -8,12 +8,10 @@ import Image from "next/image"
 export default function DailyWeather({ daily }: { daily: Daily }) {
   const { temperatureUnit } = useUnitStore()
 
-
-  console.log(daily)
   return (
     <>
       <section className="container mx-auto max-w-6xl p-4">
-        <h3>Daily forecast</h3>
+        <h3 className="mb-4">Daily forecast</h3>
 
         <div className="grid grid-cols-3 gap-4">
           {

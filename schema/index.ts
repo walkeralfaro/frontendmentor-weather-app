@@ -37,3 +37,12 @@ export const dailySchema = z.object({
 })
 
 export type Daily = z.infer<typeof dailySchema>
+
+// Open Meteo - Hourly
+export const hourlySchema = z.object({
+  time: z.array(z.string()),
+  temperature_2m: z.record(z.string(), z.number()),
+  weather_code: z.record(z.string(), z.number()),
+})
+
+export type Hourly = z.infer<typeof hourlySchema>

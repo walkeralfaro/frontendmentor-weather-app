@@ -31,7 +31,7 @@ export const fetchWeather = async (latitude: number, longitude: number) => {
       "latitude": latitude,
       "longitude": longitude,
       "daily": ["temperature_2m_max", "temperature_2m_min", "weather_code"],
-      "hourly": ["temperature_2m", "relative_humidity_2m", "precipitation", "apparent_temperature", "wind_speed_10m", "weather_code"],
+      "hourly": ["temperature_2m", "weather_code"],
       "current": ["temperature_2m", "apparent_temperature", "relative_humidity_2m", "precipitation", "wind_speed_10m", "weather_code"],
       "timezone": "auto",
     }
@@ -64,11 +64,7 @@ export const fetchWeather = async (latitude: number, longitude: number) => {
         (_, i) => new Date((Number(hourly.time()) + i * hourly.interval() + utcOffsetSeconds) * 1000)
       ),
       temperature_2m: hourly.variables(0)!.valuesArray(),
-      relative_humidity_2m: hourly.variables(1)!.valuesArray(),
-      precipitation: hourly.variables(2)!.valuesArray(),
-      apparent_temperature: hourly.variables(3)!.valuesArray(),
-      wind_speed_10m: hourly.variables(4)!.valuesArray(),
-      weather_code: hourly.variables(5)!.valuesArray(),
+      weather_code: hourly.variables(1)!.valuesArray(),
     }
 
     // Procesamos datos diarios

@@ -1,6 +1,6 @@
 'use client'
 
-import { City, Current, Daily } from "@/schema"
+import { City, Current, Daily, Hourly } from "@/schema"
 import { fetchWeather } from "@/lib/weather"
 import { useEffect, useState } from "react"
 import { SearchForm } from "@/components/search/search-form"
@@ -8,12 +8,14 @@ import CurrentWeather from "@/components/weather/current/current-weather"
 import Header from "./header"
 import DailyWeather from "../weather/daily/daily-weather"
 import { Skeleton } from "../ui/skeleton"
+import HourlyWeather from "../weather/hourly/hourly-weather"
 
 export default function AppWeather() {
   const [localCity, setLocalCity] = useState<City | null>(null)
   const [searchedCity, setSearchedCity] = useState<City | null>(null)
   const [current, setCurrent] = useState<Current>()
   const [daily, setDaily] = useState<Daily>()
+  const [hourly, setHourly] = useState<Hourly>()
 
   const handleCitySearch = async (city: City) => {
     console.log("Ciudad seleccionada:", city)
@@ -30,6 +32,7 @@ export default function AppWeather() {
     console.log("Datos del clima:", weather)
     setCurrent(weather.current)
     setDaily(weather.daily)
+    setHourly(weather.hourly)
   }
 
   // search local city - IP - browser
@@ -102,6 +105,16 @@ export default function AppWeather() {
             </div>
           )
         }
+
+        {
+          hourly ? (
+
+            <HourlyWeather hourly={hourly} />
+          ) : (
+            <p>cargando hourly</p>
+          )
+        }
+
 
       </div>
     </>
