@@ -15,11 +15,11 @@ export default function DailyWeather({ daily }: { daily?: Daily }) {
     <section className="container mx-auto max-w-6xl p-4">
       <h3 className="mb-4">Daily forecast</h3>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4 md:grid-cols-7">
         {timeArray.map((day, index) => {
           if (!daily) {
             return (
-              <Card key={index} className="gap-0 py-4 h-[147]"/>
+              <Card key={index} className="gap-0 py-4 h-[147] md:h-[162]"/>
             )
           }
 
@@ -34,12 +34,12 @@ export default function DailyWeather({ daily }: { daily?: Daily }) {
 
           return (
             <div key={index}>
-              <Card className="gap-0 py-4">
+              <Card className="gap-0 py-4 md:h-[162] md:justify-between">
                 <CardHeader>
                   <CardTitle className="text-center">{weekday}</CardTitle>
                 </CardHeader>
                 <CardContent className="p-0">
-                  <div className="px-4">
+                  <div className="px-4 md:mb-3">
                     <div className="relative aspect-square w-full">
                       <Image src={iconPath} alt="Weather icon" fill priority />
                     </div>

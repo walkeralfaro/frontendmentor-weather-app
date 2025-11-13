@@ -12,9 +12,9 @@ export default function HourlyWeather({ hourly }: { hourly: Hourly }) {
   const [selectedDay, setSelectedDay] = useState(days[0])
 
   return (
-    <div className="p-4">
+    <div className="p-4 md:w-[372]">
 
-      <div className="bg-sidebar-accent dark:bg-card rounded-lg">
+      <div className="bg-gray-200 dark:bg-card rounded-lg">
         <div className="flex justify-between items-center p-4">
 
           <h4>Hourly forecast</h4>

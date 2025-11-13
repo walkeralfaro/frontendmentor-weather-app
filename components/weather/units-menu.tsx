@@ -23,7 +23,7 @@ export function UnitsMenu() {
         <DropdownMenuItem onClick={() => setTemperatureUnit("celsius")} className="flex justify-between">
           Celsius (°C) {temperatureUnit === "celsius" && <Check />}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTemperatureUnit("fahrenheit")}>
+        <DropdownMenuItem onClick={() => setTemperatureUnit("fahrenheit")} className="flex justify-between">
           Fahrenheit (°F) {temperatureUnit === "fahrenheit" && <Check />}
         </DropdownMenuItem>
 

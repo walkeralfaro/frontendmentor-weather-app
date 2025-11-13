@@ -10,6 +10,7 @@ import DailyWeather from "../weather/daily/daily-weather"
 import HourlyWeather from "../weather/hourly/hourly-weather"
 import { Button } from "../ui/button"
 import { ScrollArea } from "../ui/scroll-area"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 
 export default function AppWeather() {
   const [localCity, setLocalCity] = useState<City | null>(null)
@@ -85,40 +86,42 @@ export default function AppWeather() {
   return (
     <>
       <div className="font-dm-sans">
+
         <Header />
-        <div className="container mx-auto max-w-3xl p-10">
+
+        <div className="container mx-auto max-w-3xl p-10 md:pb-5 md:pt-8">
           <h1 className="text-5xl/15 font-bricolage-grotesque text-center">How's the sky looking today?</h1>
         </div>
-        <div className="container mx-auto max-w-3xl p-4 text-center">
-          <SearchForm onSelectCity={(city) => handleCitySearch(city)} localCity={localCity} />
-          <Button className="w-[330] sm:w-[375] mt-2 text-xl p-6 cursor-pointer" onClick={() => handleCitySearch(searchedCity!)}>Search</Button>
+
+        <div className="container mx-auto max-w-2xl p-4 text-center">
+          <div className="md:flex md:justify-between md:items-center md:gap-4">
+            <SearchForm onSelectCity={(city) => handleCitySearch(city)} localCity={localCity} />
+            <Button className="w-[330] sm:w-[375] mt-2 text-xl p-6 cursor-pointer md:mt-0 md:w-[100]" onClick={() => handleCitySearch(searchedCity!)}>Search</Button>
+          </div>
         </div>
 
+        <div className="md:flex md:container md:mx-auto md:max-w-6xl">
 
-        {
-          current ? (
+          <div className="grow">
             <CurrentWeather current={current} searchedCity={searchedCity} />
-          ) : (
-            <CurrentWeather current={current} searchedCity={searchedCity} />
-          )
-        }
-
-        {
-          daily ? (
             <DailyWeather daily={daily} />
-          ) : (
-            <DailyWeather daily={daily} />
-          )
-        }
+          </div>
 
-        {
-          hourly ? (
+          {hourly ? (
             <HourlyWeather hourly={hourly} />
           ) : (
-            <div className="p-4">
+            <div className="p-4 md:w-[372]">
               <div className="bg-sidebar-accent dark:bg-card rounded-lg">
                 <div className="flex justify-between items-center p-4">
                   <h4>Hourly forecast</h4>
+                  <Select value="">
+                    <SelectTrigger className="bg-card dark:bg-secondary">
+                      <SelectValue placeholder="--" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="--"></SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <ScrollArea className="h-144">
@@ -126,10 +129,9 @@ export default function AppWeather() {
                 </ScrollArea>
               </div>
             </div>
-          )
-        }
+          )}
 
-
+        </div>
       </div>
     </>
   )

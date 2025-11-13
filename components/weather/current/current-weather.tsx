@@ -22,7 +22,7 @@ export default function CurrentWeather({
     // Mismo espacio visual pero sin contenido visible
     return (
       <main className="container mx-auto max-w-6xl p-4">
-        <div className="bg-card rounded-2xl py-10 px-6 aspect-343/286 flex flex-col justify-center items-center">
+        <div className="bg-card rounded-2xl shadow-lg py-10 px-6 aspect-343/286 md:aspect-800/286 flex flex-col justify-center items-center">
           <p className="animate-pulse text-lg opacity-70">Loading...</p>
         </div>
 
@@ -46,10 +46,10 @@ export default function CurrentWeather({
   console.log(wind, precipitation)
 
   return (
-    <main className="container mx-auto max-w-6xl p-4">
+    <main className="p-4">
       {/* today temp - location - day */}
-      <div className="bg-[url(/bg-today-small.svg)] text-white bg-cover bg-no-repeat bg-center py-10 px-6 aspect-[343/286] flex flex-col justify-between">
-        <div className="flex flex-col gap-3 items-center">
+      <div className="dark:bg-[url(/bg-today-small.svg)] bg-cover bg-no-repeat bg-center rounded-2xl shadow-lg py-10 px-6 aspect-343/286 flex flex-col justify-between md:flex-row md:items-center md:dark:bg-[url(/bg-today-large.svg)] md:aspect-800/286 md:rounded-2xl">
+        <div className="flex flex-col gap-3 items-center md:items-start">
           <h2 className="text-3xl">
             {searchedCity?.name}
             {', '}
